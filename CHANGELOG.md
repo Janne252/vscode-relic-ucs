@@ -1,7 +1,7 @@
 # Change Log
 
 
-## [0.01] and [0.02] - 2019-09-02
+## [0.01] and [0.02] and [0.0.3] - 2019-09-02
 
 - Initial release
 	- Syntax highlighting
