@@ -1,4 +1,4 @@
-# relic-ucs
+# UCS (Relic Entertainment's Localization file format)
 
 Language Support for Relic Entertainment's `.ucs` localization files.
 
