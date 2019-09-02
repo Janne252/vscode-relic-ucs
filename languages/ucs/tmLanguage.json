@@ -1,0 +1,23 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "UCS",
+	"patterns": [
+		{
+			"name": "string",
+			"match": "%.*?%"
+		},
+		{
+			"name": "constant.numeric",
+			"match": "^(\\d{1,}\\t)"
+		},
+		{
+			"name": "constant.numeric",
+			"match": "^(\\d{1,}\\t)"
+		},
+		{
+			"name": "keyword.other",
+			"match": "\\$\\d+"
+		}
+	],
+	"scopeName": "source.ucs"
+}

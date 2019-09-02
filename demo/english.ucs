@@ -1,0 +1,53 @@
+1	%1X%.%2Y%
+2	jfkdjfksd	1	jfkdjfksd
+250	normal
+251	century14
+252	century16
+253	century18
+254	GillSans_18a
+255	century14_chat
+280	enable
+300	Error
+301	Failed to initialize video card.
+302	Failed to initialize sound card.
+303	Not enough physical memory to run the game. Your system must have at least 512MB of RAM.
+304	Not enough virtual memory to run the game. Your system total paging files must be at least 768MB. Please consult the manual that came with your OS.
+305	Your video card is not supported. In order to run Company of Heroes you must have a Shader Model 1.0 or better Video Card.
+400	Error
+401	Steam must be running to play this game.  Try again by launching game from Steam.
+402	Game is not being run as a known Company of Heroes 2 product.  Try again by launching game from Steam.
+403	Current Steam account does not own this Company of Heroes 2 product.  Switch Steam accounts and try again.
+404	No Valid Steam user.  Check you are fully logged in or switch accounts and try again.
+405	Steam is down or you are not logged in fully.  Please restart your Steam client and try again.
+11054503	Reinforce
+11054504	Reinforce
+11054505	Reinforce
+11054506	Reinforce
+11054507	Excellent armor and an even better gun. The Tiger can tackle any foe on the battlefield.
+11054508	This Tiger Tank and its crew are the veterans of countless battles. Through experience, they have become experts at knocking out enemy tanks and living to tell the tale. This Tiger commander emphasizes caution and awareness over speed.
+11054509	Increased durability, damage, sight and range compared to a standard Tiger, reduced movement speed.
+73000	$73000 No Key
+73268	Unit Name
+73269	$73269 No Key
+73270	Player Name
+73271	5
+73272	75
+73273	1
+73274	6
+73275	4:59
+73276	$73326 No Key
+73277	6
+11090377	Infantry Section Squads will reload 3% faster.
+11095117	%1NAME% has selected a mod %2MOD% that one or more party members have not installed.
+This should be an invalid locstring.
+	this is a message without an ID.
+invalid id number	message
+4343434	
+
+1234	this is a duplicate id
+1234	this is a duplicate id #2
+
+1235	this is a duplicate message
+1236	this iS A duplicate MesSAGe
+invalid id number	message
+1	
