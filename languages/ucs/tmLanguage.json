@@ -11,10 +11,6 @@
 			"match": "^(\\d{1,}\\t)"
 		},
 		{
-			"name": "constant.numeric",
-			"match": "^(\\d{1,}\\t)"
-		},
-		{
 			"name": "keyword.other",
 			"match": "\\$\\d+"
 		}
