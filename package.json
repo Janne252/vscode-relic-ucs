@@ -1,7 +1,7 @@
 {
 	"name": "relic-ucs",
 	"displayName": "Relic .ucs",
-	"description": "Language support for Relic's .ucs files (localization).",
+	"description": "Language support for Relic Entertainment's .ucs localization files.",
 	"version": "0.0.1",
     "publisher": "Janne252",
     "author": {

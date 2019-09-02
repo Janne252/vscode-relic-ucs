@@ -1,6 +1,6 @@
 # relic-ucs
 
-Support for Relic Entertainment's `.ucs` file format.
+Language Support for Relic Entertainment's `.ucs` localization files.
 
 ### Formatting
 
