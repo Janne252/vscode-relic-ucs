@@ -1,3 +1,6 @@
 {
-    "editor.insertSpaces": true
+    "editor.insertSpaces": true,
+    "ucs.ignoreEmptyLines": true,
+    "ucs.ignoreDuplicateMessages": true,
+    "ucs.ignoreEmptyMessages": true
 }
