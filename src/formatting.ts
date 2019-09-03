@@ -1,12 +1,12 @@
 import * as vscode from 'vscode';
-import { localize } from './extension';
 import { isInteger } from './validation';
+import Config from './configuration';
 
 export default class UCSTabFormatter implements vscode.Disposable {
 	private readonly disposables: vscode.Disposable[] = [];
 	private showSpacesConvertedNotification = true;
 
-	constructor() {
+	constructor(config: Config) {
 		this.disposables.push(vscode.workspace.onDidChangeTextDocument(this.onTextDocumentChanged));
 	}
 
@@ -50,16 +50,10 @@ export default class UCSTabFormatter implements vscode.Disposable {
 						
 				// Notify the user of the automatic change
 				if (this.showSpacesConvertedNotification) {
-					const message = localize(
-						'notifications.spacesAutoConvertedToTabs', 
-						'Automatically converted {count} spaces into a tab.'
-					)
-						.replace('{count}', `${tabSize}`);
-
 					vscode.window.showInformationMessage<{title: string, id: string}>(
-						message,
-						{id: 'doNotShowAgain', title: localize('actions.doNotShowAgain', "Don't show again")},
-						{id: 'close', title: localize('actions.dismiss', "Dismiss")},
+						`Automatically converted ${tabSize} spaces into a tab.`,
+						{id: 'doNotShowAgain', title: `Don't show again`},
+						{id: 'close', title: 'Dismiss'},
 					).then(option => {
 						if (option != null && option.id == 'doNotShowAgain') {
 							this.showSpacesConvertedNotification = false;

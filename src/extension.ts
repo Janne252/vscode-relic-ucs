@@ -1,13 +1,14 @@
 import * as vscode from 'vscode';
-import * as nls from 'vscode-nls';
 import UCSDiagnosticsProvider from './diagnostics';
 import UCSTabFormatter from './formatting';
-
-export const localize = nls.config({ messageFormat: nls.MessageFormat.file })();
+import Config from './configuration';
 
 export async function activate(context: vscode.ExtensionContext) {
-	context.subscriptions.push(new UCSDiagnosticsProvider());
-	context.subscriptions.push(new UCSTabFormatter());
+	const config = new Config();
+	
+	context.subscriptions.push(new UCSDiagnosticsProvider(config));
+	context.subscriptions.push(new UCSTabFormatter(config));
+	context.subscriptions.push(config);
 }
 
 export function deactivate() {
