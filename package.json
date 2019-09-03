@@ -59,6 +59,28 @@
                 "scopeName": "source.ucs",
                 "path": "./languages/ucs/tmLanguage.json"
             }
+        ],
+        "configuration":[
+            {
+                "title": "UCS",
+                "properties": {
+                    "ucs.ignoreEmptyMessages": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Whether or not empty messages should be ignored when linting a UCS file."
+                    },
+                    "ucs.ignoreDuplicateMessages": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Whether or not duplicate messages should be ignored when linting a UCS file."
+                    },
+                    "ucs.ignoreEmptyLines": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Whether or not empty lines should be ignored when linting a UCS file."
+                    }
+                }
+            }
         ]
     },
     "scripts": {
@@ -79,7 +101,5 @@
         "tslint": "^5.12.1",
         "vscode-test": "^1.0.2"
     },
-    "dependencies": {
-        "vscode-nls": "^4.1.1"
-    }
+    "dependencies": {}
 }
