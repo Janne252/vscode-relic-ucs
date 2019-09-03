@@ -8,28 +8,68 @@ import { isInteger } from './validation';
 export default class UCSDiagnosticsProvider implements vscode.Disposable {
     private readonly diagnosticCollection: vscode.DiagnosticCollection;
     private readonly disposables: vscode.Disposable[] = [];
+    private isProgressNotificationVisible = false;
 
     constructor() {
         this.diagnosticCollection = vscode.languages.createDiagnosticCollection('ucs');
 
         // Listen for events that should trigger document validation
         this.disposables.push(
-            vscode.workspace.onDidChangeTextDocument(this.onDocumentTextChanged),
             vscode.workspace.onDidOpenTextDocument(this.onOpenTextDocument),
+            // TODO this event seems to fire twice on first text editor edit
+            vscode.workspace.onDidChangeTextDocument(this.onDocumentTextChanged),
         );
 
         // Process documents that are already open
-        vscode.workspace.textDocuments.forEach(document => this.diagnoseDocument(document));
+        vscode.workspace.textDocuments.forEach(document => this.processDocument(document, 'initial'));
     }
 
-    private onOpenTextDocument = (e: vscode.TextDocument) => this.diagnoseDocument(e);
-    private onDocumentTextChanged = (e: vscode.TextDocumentChangeEvent) => this.diagnoseDocument(e.document);
+    private onOpenTextDocument = (e: vscode.TextDocument) => this.processDocument(e, 'onDidOpenTextDocument');
+    private onDocumentTextChanged = (e: vscode.TextDocumentChangeEvent) => this.processDocument(e.document, 'onDidChangeTextDocument');
 
-    private diagnoseDocument(document: vscode.TextDocument) {
-        if (document.languageId != 'ucs') {
+    private processDocument(document: vscode.TextDocument, eventName: string) {
+        if (document.languageId !== 'ucs') {
             return;
         }
 
+        console.log(`processDocument: ${eventName}`);
+
+        // Open, more than thousand lines: Show progress message
+        if (!document.isClosed && document.lineCount > 1000 && this.isProgressNotificationVisible == false) {
+            // Resolve a friendly file name
+            let fileName = document.fileName;
+            for (const folder of vscode.workspace.workspaceFolders || []) {
+                if (document.uri.path.startsWith(folder.uri.path)) {
+                    fileName = document.uri.path.substring(folder.uri.path.length);
+                    if (fileName.startsWith('/')) {
+                        fileName = fileName.substring(1);
+                    }
+                    break;
+                }
+            }
+
+            vscode.window.withProgress({
+                location: vscode.ProgressLocation.Notification,
+                cancellable: false,
+                title: localize('notifications.processingLargeFile', '[Large file] Processing {file}...').replace(
+                    '{file}', fileName,
+                ),
+
+            }, () => new Promise((resolve, reject) => {
+                this.isProgressNotificationVisible = true;
+
+                setTimeout(() => {
+                    this.diagnoseDocument(document);
+                    resolve();
+                    this.isProgressNotificationVisible = false;
+                }, 100);
+            }));
+        } else {
+            this.diagnoseDocument(document);
+        }
+    }
+
+    private diagnoseDocument(document: vscode.TextDocument) {
         const diagnostics: vscode.Diagnostic[] = [];
         const text = document.getText();
         const lines = text.split('\n');
