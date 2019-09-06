@@ -8,7 +8,6 @@ Language Support for Relic Entertainment's `.ucs` localization files.
 - Automatically generated LocString references, e.g. `$1234 No Key`
 
 ### Formatting
-
 - Automatically convert inserted spaces (when `editor.insertSpaces` is enabled) into a tab if inserted after an integer, e.g. 
 ^`1234    ` (where ^ denotes the beginning of the line)
 

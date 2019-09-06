@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.04] - 2019-09-06
+- Improved user experience when processing large files (progress notification)
+- Grouped diagnostics (identical "duplicate ID" and "duplicate message" are now grouped instead of highlighting all occurrences)
+- Configuration options for controlling the reporting of warnings:
+    `ucs.diagnostics.warnings.emptyMessage`, `ucs.diagnostics.warnings.duplicateMessage`, `ucs.diagnostics.warnings.emptyLine`
+- `editor.insertSpaces` is now disabled by default for `ucs`
 
 ## [0.01] and [0.02] and [0.0.3] - 2019-09-02
 
@@ -9,11 +15,10 @@
         - LocString message formatting parameters, e.g. `%1%` or `%1NAME%`
         - Automatically generated LocString references, e.g. `$1234 No Key`
 
-    - Formatting
-        - Automatically convert inserted spaces (when `editor.insertSpaces` is enabled) into a tab if inserted after an integer, e.g. 
-        ^`1234    ` (where ^ denotes the beginning of the line)
+    - Editor
+        - `editor.insertSpaces` is disabled for `ucs` by default
         
-    - Linting
+    - Diagnostics
         - Errors:
             - Invalid LocString (no tab separator)
             - Missing LocString ID number

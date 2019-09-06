@@ -2,7 +2,7 @@
     "name": "relic-ucs",
     "displayName": "UCS (Relic Entertainment's Localization file format)",
     "description": "Language support for Relic Entertainment's .ucs localization files.",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "publisher": "Janne252",
     "author": {
         "name": "Janne Varjo"
@@ -60,28 +60,33 @@
                 "path": "./languages/ucs/tmLanguage.json"
             }
         ],
-        "configuration":[
+        "configuration": [
             {
                 "title": "UCS",
                 "properties": {
-                    "ucs.ignoreEmptyMessages": {
+                    "ucs.diagnostics.warnings.emptyMessage": {
                         "type": "boolean",
-                        "default": false,
-                        "description": "Whether or not empty messages should be ignored when linting a UCS file."
+                        "default": true,
+                        "description": "Whether or not empty messages should be reported as warnings."
                     },
-                    "ucs.ignoreDuplicateMessages": {
+                    "ucs.diagnostics.warnings.duplicateMessage": {
                         "type": "boolean",
-                        "default": false,
-                        "description": "Whether or not duplicate messages should be ignored when linting a UCS file."
+                        "default": true,
+                        "description": "Whether or not duplicate messages should be reported as warnings."
                     },
-                    "ucs.ignoreEmptyLines": {
+                    "ucs.diagnostics.warnings.emptyLine": {
                         "type": "boolean",
-                        "default": false,
-                        "description": "Whether or not empty lines should be ignored when linting a UCS file."
+                        "default": true,
+                        "description": "Whether or not empty lines should be reported as warnings."
                     }
                 }
             }
-        ]
+        ],
+        "configurationDefaults": {
+            "[ucs]": {
+                "editor.insertSpaces": false
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",

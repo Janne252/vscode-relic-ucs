@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { isInteger } from './validation';
 import { hrtimeToSeconds, getRelativeFileName, combineDiagnostics } from './util';
-import Config from './configuration';
+import UCSConfig from './configuration';
 
 /**
  * Provides diagnostics for a .ucs file.
@@ -10,10 +10,10 @@ export default class UCSDiagnosticsProvider implements vscode.Disposable {
     private readonly diagnosticCollection: vscode.DiagnosticCollection;
     private readonly disposables: vscode.Disposable[] = [];
     private isProgressNotificationVisible = false;
-    private config: Config;
+    private config: UCSConfig;
     private processDocumentTimeout: NodeJS.Timeout | null = null;
 
-    constructor(config: Config) {
+    constructor(config: UCSConfig) {
         this.config = config;
 
         this.diagnosticCollection = vscode.languages.createDiagnosticCollection('ucs');
@@ -87,7 +87,7 @@ export default class UCSDiagnosticsProvider implements vscode.Disposable {
             const line = lines[lineIndex];
 
             // Check for empty lines. Allow last line of file to be empty.
-            if (!this.config.ignoreEmptyLines && line.length == 0) {
+            if (this.config.isEmptyLineWarningEnabled && line.length == 0) {
                 if (lineIndex != lines.length - 1) {
                     diagnostics.push({
                         range: new vscode.Range(
@@ -151,7 +151,7 @@ export default class UCSDiagnosticsProvider implements vscode.Disposable {
             }
 
             // Check for empty messages
-            if (!this.config.ignoreEmptyMessages && line.length > 0 && message.length == 0) {
+            if (this.config.isEmptyMessageWarningEnabled && line.length > 0 && message.length == 0) {
                 diagnostics.push({
                     range: new vscode.Range(
                         new vscode.Position(lineIndex, 0),
@@ -176,12 +176,12 @@ export default class UCSDiagnosticsProvider implements vscode.Disposable {
                             new vscode.Position(lineIndex, tabIndex),
                         ),
                     },
-                    message: 'Duplicate ID.',
+                    message: `Duplicate ID: "${id}"`,
                 });
             }
 
             // Check for duplicate messages
-            if (normalizedMessage.length > 0 && !this.config.ignoreDuplicateMessages && definedLocStringMessages[normalizedMessage] != null) {
+            if (this.config.isDuplicateMessageWarningEnabled && normalizedMessage.length > 0 && definedLocStringMessages[normalizedMessage] != null) {
                 if (duplicateMessages[normalizedMessage] == null) duplicateMessages[normalizedMessage] = [];
 
                 duplicateMessages[normalizedMessage].push({
@@ -192,7 +192,7 @@ export default class UCSDiagnosticsProvider implements vscode.Disposable {
                             new vscode.Position(lineIndex, line.length),
                         )
                     },
-                    message: `Duplicate message.`,
+                    message: `Duplicate message: "${normalizedMessage}"`,
                 });
             }
             

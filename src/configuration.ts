@@ -1,18 +1,20 @@
 import * as vscode from 'vscode';
 
-export default class Config implements vscode.Disposable {
+export default class UCSConfig implements vscode.Disposable {
     private readonly disposables: vscode.Disposable[] = [];
     private readonly onDidChangeCallbacks: (() => void)[] = [];
 
     private config = {
-        ignoreEmptyMessages: false,
-        ignoreDuplicateMessages: false,
-        ignoreEmptyLines: false,
+        isEmptyMessageWarningEnabled: true,
+        isDuplicateMessageWarningEnabled: true,
+        isEmptyLineWarningEnabled: true,
     };
+    
+    private isEditorInsertSpacesWarningEnabled = true;
 
-    get ignoreEmptyMessages() { return this.config.ignoreEmptyMessages; }
-    get ignoreDuplicateMessages() { return this.config.ignoreDuplicateMessages; }
-    get ignoreEmptyLines() { return this.config.ignoreEmptyLines; }
+    get isEmptyMessageWarningEnabled() { return this.config.isEmptyMessageWarningEnabled; }
+    get isDuplicateMessageWarningEnabled() { return this.config.isDuplicateMessageWarningEnabled; }
+    get isEmptyLineWarningEnabled() { return this.config.isEmptyLineWarningEnabled; }
 
     constructor() {
         this.disposables.push(vscode.workspace.onDidChangeConfiguration(this.onDidChangeConfiguration));
@@ -20,7 +22,7 @@ export default class Config implements vscode.Disposable {
     }
 
     private onDidChangeConfiguration = (e: vscode.ConfigurationChangeEvent) => {
-        if (e.affectsConfiguration('ucs')) {
+        if (e.affectsConfiguration('ucs') || e.affectsConfiguration('editor.insertSpaces')) {
             this.loadConfiguration();
             for (const callback of this.onDidChangeCallbacks) {
                 callback();
@@ -28,11 +30,22 @@ export default class Config implements vscode.Disposable {
         }
     };
 
-    private loadConfiguration() {
+    private async loadConfiguration() {
         const config = vscode.workspace.getConfiguration('ucs');
-        this.config.ignoreEmptyMessages = config.get('ignoreEmptyMessages', false);
-        this.config.ignoreDuplicateMessages = config.get('ignoreDuplicateMessages', false);
-        this.config.ignoreEmptyLines = config.get('ignoreEmptyLines') as boolean;
+        this.config.isEmptyMessageWarningEnabled = config.get(
+            'diagnostics.warnings.emptyMessage', 
+            this.config.isEmptyMessageWarningEnabled
+        ) as boolean;
+
+        this.config.isDuplicateMessageWarningEnabled = config.get(
+            'diagnostics.warnings.duplicateMessage', 
+            this.config.isDuplicateMessageWarningEnabled
+        ) as boolean;
+
+        this.config.isEmptyLineWarningEnabled = config.get(
+            'diagnostics.warnings.emptyLine', 
+            this.config.isEmptyLineWarningEnabled
+        ) as boolean;
     }
 
     onDidChange(callback: () => void) {
