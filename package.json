@@ -2,7 +2,7 @@
     "name": "relic-ucs",
     "displayName": "UCS (Relic Entertainment's Localization file format)",
     "description": "Language support for Relic Entertainment's .ucs localization files.",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "publisher": "Janne252",
     "author": {
         "name": "Janne Varjo"
